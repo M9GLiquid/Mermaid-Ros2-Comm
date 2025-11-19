@@ -1,0 +1,20 @@
+# ROS2 Python dependencies
+# Note: ROS2 installation varies by distribution
+# For ROS2 Humble/Jazzy: Install ROS2 system-wide first, then activate the environment
+# For Python-only environments, you may need to install from source or use conda
+
+# Core ROS2 Python packages (usually installed with ROS2)
+# rclpy - ROS2 Python client library
+# std_msgs - Standard message types
+
+# If using ROS2 Humble/Jazzy:
+# 1. Install ROS2 system-wide: https://docs.ros.org/en/humble/Installation.html
+# 2. Source ROS2 setup: source /opt/ros/humble/setup.bash
+# 3. Install Python dependencies: pip install -r requirements.txt
+
+# Alternative: If you need to install rclpy via pip (not recommended, but possible):
+# rclpy>=3.3.0
+# std-msgs>=4.2.0
+
+# Other dependencies
+numpy>=1.20.0
