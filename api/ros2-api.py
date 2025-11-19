@@ -408,19 +408,45 @@ class RobotPositionAPI:
             self._node_handle = None
             self._node = None
     
-    def getPosition(self, spiralID: int) -> Optional[SpiralRow]:
+    def getPosition(self, spiralID=None):
         """
-        Hämta position för en specifik spiral.
+        Hämta position för spiral(ar) - enkel och flexibel.
         
         Args:
-            spiralID: ID för spiralen att hämta
+            spiralID: 
+                - None: Returnerar alla robotar (List[SpiralRow])
+                - int: Returnerar en specifik robot (SpiralRow eller None)
+                - List[int]: Returnerar specifika robotar (t.ex. [5, 9])
         
         Returns:
-            SpiralRow om spiralen finns och har giltig position, annars None
-            Positioner med certainty < min_certainty eller outliers returneras inte
+            - Om spiralID är None: Lista med alla SpiralRow
+            - Om spiralID är int: SpiralRow eller None
+            - Om spiralID är List[int]: Lista med SpiralRow
+        
+        Exempel:
+            api.getPosition()        # Alla robotar
+            api.getPosition(9)       # Bara spiral 9
+            api.getPosition([5, 9])  # Spiral 5 och 9
         """
         if self._node is None:
+            if spiralID is None or isinstance(spiralID, list):
+                return []
             return None
+        
+        # Alla robotar
+        if spiralID is None:
+            return self._node.get_all_positions()
+        
+        # Flera specifika robotar
+        if isinstance(spiralID, list):
+            result = []
+            for rid in spiralID:
+                pos = self._node.get_position(rid)
+                if pos is not None:
+                    result.append(pos)
+            return result
+        
+        # En specifik robot
         return self._node.get_position(spiralID)
     
     def setPositionCallback(self, callback: Optional[Callable[[List[SpiralRow]], None]]):
